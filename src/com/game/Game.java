@@ -7,14 +7,23 @@ import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable {
 
-    public static final int WIDTH = 440;
-    public static final int HEIGHT = 406;
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 700;
     public static final String TITLE = "Strzelanie";
 
     private boolean running = false;
     private Thread thread;
 
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    private BufferedImage duckObject = null;
+
+    private BufferedImage player;
+
+    public void init(){
+        ImageLoader loader = new ImageLoader();
+        duckObject = loader.loadImage("/PixelArt.png");
+
+    }
 
     private synchronized void start(){
         if (running)
@@ -41,6 +50,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void run(){
+        init();
         long lastTime = System.nanoTime();
         final double amountOfTicks = 60.0;
         double ns = 1000000000 / amountOfTicks;
@@ -86,6 +96,8 @@ public class Game extends Canvas implements Runnable {
         Graphics g = bufferStrategy.getDrawGraphics();
 
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+
+        g.drawImage(duckObject, 50, 50, 50, 50,  this );
 
         g.dispose();
         bufferStrategy.show();
