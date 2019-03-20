@@ -14,4 +14,5 @@ public class DuckObject {
 //        BufferedImage img = image.getSubimage((column * 32) - 32, (row * 32) - 32, width, height);
 //        return img;
 //    }
+
 }
