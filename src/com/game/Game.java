@@ -15,13 +15,24 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
 
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-    private BufferedImage duckObject = null;
+    private BufferedImage bufferedImage;
 
-    private BufferedImage player;
+    private DuckObject duckObject;
+
+    private Menu menu;
+
+    private enum GAME_STATE {
+        MENU,
+        GAME
+    };
+    private GAME_STATE state = GAME_STATE.MENU;
+
 
     public void init(){
         ImageLoader loader = new ImageLoader();
-        duckObject = loader.loadImage("/PixelArt.png");
+        bufferedImage = loader.loadImage("/PixelArt.png");
+        duckObject = new DuckObject(bufferedImage);
+        menu = new Menu();
 
     }
 
@@ -84,6 +95,9 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick(){
+        if (state == GAME_STATE.GAME) {
+            ///
+        }
     }
 
     private void render(){
@@ -95,9 +109,14 @@ public class Game extends Canvas implements Runnable {
         }
         Graphics g = bufferStrategy.getDrawGraphics();
 
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        if (state == GAME_STATE.GAME){
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 
-        g.drawImage(duckObject, 50, 50, 50, 50,  this );
+            duckObject.render(g);
+        }
+        else if (state == GAME_STATE.MENU){
+            menu.render(g);
+        }
 
         g.dispose();
         bufferStrategy.show();
@@ -122,5 +141,8 @@ public class Game extends Canvas implements Runnable {
         game.start();
     }
 
+    public BufferedImage getDuckObject(){
+        return bufferedImage;
+    }
 
 }
