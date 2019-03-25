@@ -5,34 +5,49 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
+import static java.lang.Integer.parseInt;
+
 public class Game extends Canvas implements Runnable {
 
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 700;
+    public static int WIDTH;
+    public static int HEIGHT;
     public static final String TITLE = "Strzelanie";
 
     private boolean running = false;
     private Thread thread;
 
-    private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    private BufferedImage image;
     private BufferedImage bufferedImage;
 
     private DuckObject duckObject;
 
     private Menu menu;
 
-    private enum GAME_STATE {
+    public static enum GAME_STATE {
         MENU,
         GAME
     };
-    private GAME_STATE state = GAME_STATE.MENU;
+    public static GAME_STATE state = GAME_STATE.MENU;
 
+    /**
+     * Inicjalizacja zmiennych w klasie Game wartościami z pliku parametrycznego
+     */
+
+    public Game() {
+        GameReader.loadParametricFile("par.txt");
+        System.out.println(GameReader.props.getProperty("początkowaSzerokośćPlanszy"));
+        this.WIDTH = parseInt(GameReader.props.getProperty("początkowaSzerokośćPlanszy"));
+        this.HEIGHT = parseInt(GameReader.props.getProperty("początkowaWysokośćPlanszy"));
+        image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    }
 
     public void init(){
         ImageLoader loader = new ImageLoader();
-        bufferedImage = loader.loadImage("/PixelArt.png");
+        bufferedImage = loader.loadImage("/pumpkin.png");
         duckObject = new DuckObject(bufferedImage);
         menu = new Menu();
+
+        this.addMouseListener(new MouseInput());
 
     }
 
@@ -57,7 +72,7 @@ public class Game extends Canvas implements Runnable {
             e.printStackTrace();
         }
 
-        System.exit(1);
+        System.exit(0);
     }
 
     public void run(){
@@ -85,7 +100,7 @@ public class Game extends Canvas implements Runnable {
             frames++;
             if(System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                System.out.println(updates + " " + frames);
+                //System.out.println(updates + " " + frames);
                 updates = 0;
                 frames = 0;
             }
@@ -124,25 +139,22 @@ public class Game extends Canvas implements Runnable {
     }
 
     public static void main(String[] args){
+
         Game game = new Game();
 
-        game.setPreferredSize(new Dimension(WIDTH , HEIGHT ));
-        game.setMaximumSize(new Dimension(WIDTH , HEIGHT ));
-        game.setMinimumSize(new Dimension(WIDTH , HEIGHT ));
+        game.setPreferredSize(new Dimension(Menu.WIDTH , Menu.HEIGHT ));
+        game.setMaximumSize(new Dimension(Menu.WIDTH , Menu.HEIGHT));
+        game.setMinimumSize(new Dimension(Menu.WIDTH , Menu.HEIGHT ));
 
-        JFrame frame = new JFrame(game.TITLE);
-        frame.add(game);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(true);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        JFrame frame0 = new JFrame("MENU");
+        frame0.add(game);
+        frame0.pack();
+        frame0.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame0.setResizable(true);
+        frame0.setLocationRelativeTo(null);
+        frame0.setVisible(true);
 
         game.start();
-    }
-
-    public BufferedImage getDuckObject(){
-        return bufferedImage;
     }
 
 }

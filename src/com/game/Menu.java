@@ -2,12 +2,16 @@ package com.game;
 
 import java.awt.*;
 
-public class Menu {
+public class Menu extends Canvas{
 
-    public Rectangle playButton = new Rectangle(Game.WIDTH /3, 200, 300, 50);
-    public Rectangle tableButton = new Rectangle(Game.WIDTH / 3 , 300, 300, 50);
-    public Rectangle contactButton = new Rectangle(Game.WIDTH / 3 , 400, 300, 50);
-    public Rectangle quitButton = new Rectangle(Game.WIDTH / 3 , 500, 300, 50);
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 700;
+
+
+    public Rectangle playButton = new Rectangle(WIDTH /3, 200, 300, 50);
+    public Rectangle tableButton = new Rectangle(WIDTH / 3 , 300, 300, 50);
+    public Rectangle contactButton = new Rectangle(WIDTH / 3 , 400, 300, 50);
+    public Rectangle quitButton = new Rectangle(WIDTH / 3 , 500, 300, 50);
 
     public void render(Graphics g){
 
@@ -15,7 +19,7 @@ public class Menu {
         Font font0 = new Font("helvetica", Font.BOLD,50);
         g.setFont(font0);
         g.setColor(Color.RED);
-        g.drawString( "Gra " + Game.TITLE, Game.WIDTH / 4 + 50, 150);
+        g.drawString( "Gra " + Game.TITLE, WIDTH / 4 + 50, 150);
 
         Font font1 = new Font("arial", Font.BOLD, 30);
         g.setFont(font1);
@@ -27,7 +31,7 @@ public class Menu {
         g2D.draw(tableButton);
         g.drawString("KONTAKT", contactButton.x + 75, contactButton.y + 35);
         g2D.draw(contactButton);
-        g.drawString("ZAKŃOCZ", quitButton.x + 75, quitButton.y + 35);
+        g.drawString("ZAKOŃCZ", quitButton.x + 75, quitButton.y + 35);
         g2D.draw(quitButton);
     }
 }

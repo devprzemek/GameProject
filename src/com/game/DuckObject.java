@@ -15,13 +15,13 @@ public class DuckObject {
 
         this.image = image;
         Random generator = new Random();
-        this.x_coordinate = generator.nextInt(800);
-        this.y_coordinate = generator.nextInt(800);
+        this.x_coordinate = generator.nextInt(Game.WIDTH);
+        this.y_coordinate = generator.nextInt(Game.HEIGHT);
     }
 
 
     public void render(Graphics g){
-        g.drawImage(image, x_coordinate, y_coordinate, 50, 50,  null );
+        g.drawImage(image, x_coordinate, y_coordinate, 100, 100,  null );
     }
 
 }
