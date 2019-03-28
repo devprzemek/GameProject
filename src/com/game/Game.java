@@ -11,7 +11,7 @@ public class Game extends Canvas implements Runnable {
 
     public static int WIDTH;
     public static int HEIGHT;
-    public static final String TITLE = "Strzelanie";
+    public static String TITLE;
 
     private boolean running = false;
     private Thread thread;
@@ -19,11 +19,12 @@ public class Game extends Canvas implements Runnable {
     private BufferedImage image;
     private BufferedImage bufferedImage;
 
-    private DuckObject duckObject;
-
     private Menu menu;
+    private MainWindow mainWindow;
 
-    public static enum GAME_STATE {
+    private static PumpkinObject pumpkinObject;
+
+    public enum GAME_STATE {
         MENU,
         GAME
     };
@@ -38,17 +39,16 @@ public class Game extends Canvas implements Runnable {
         System.out.println(GameReader.props.getProperty("początkowaSzerokośćPlanszy"));
         this.WIDTH = parseInt(GameReader.props.getProperty("początkowaSzerokośćPlanszy"));
         this.HEIGHT = parseInt(GameReader.props.getProperty("początkowaWysokośćPlanszy"));
+        this.TITLE = GameReader.props.getProperty("nazwaGry");
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     }
 
     public void init(){
         ImageLoader loader = new ImageLoader();
-        bufferedImage = loader.loadImage("/pumpkin.png");
-        duckObject = new DuckObject(bufferedImage);
+        bufferedImage = loader.loadImage("/celownik.png");
+        pumpkinObject = new PumpkinObject(bufferedImage);
         menu = new Menu();
-
         this.addMouseListener(new MouseInput());
-
     }
 
     private synchronized void start(){
@@ -111,7 +111,7 @@ public class Game extends Canvas implements Runnable {
 
     private void tick(){
         if (state == GAME_STATE.GAME) {
-            ///
+
         }
     }
 
@@ -125,9 +125,8 @@ public class Game extends Canvas implements Runnable {
         Graphics g = bufferStrategy.getDrawGraphics();
 
         if (state == GAME_STATE.GAME){
-            g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+            pumpkinObject.render(g);
 
-            duckObject.render(g);
         }
         else if (state == GAME_STATE.MENU){
             menu.render(g);
@@ -136,6 +135,12 @@ public class Game extends Canvas implements Runnable {
         g.dispose();
         bufferStrategy.show();
 
+    }
+
+    //test
+
+    public static PumpkinObject getPumpkinObject(){
+        return pumpkinObject;
     }
 
     public static void main(String[] args){

@@ -25,7 +25,7 @@ public class MouseInput implements MouseListener {
         if(mx >= Menu.WIDTH /3 && mx <= Menu.WIDTH /3 + 300){
             if(my >= 200 && my <= 250) {
                 Game.state = Game.GAME_STATE.GAME;
-                Game game = new Game();
+                MainWindow mainWindow = new MainWindow();
             }
         }
 

@@ -19,7 +19,7 @@ public class Menu extends Canvas{
         Font font0 = new Font("helvetica", Font.BOLD,50);
         g.setFont(font0);
         g.setColor(Color.RED);
-        g.drawString( "Gra " + Game.TITLE, WIDTH / 4 + 50, 150);
+        g.drawString( "Gra ", WIDTH / 6 + 50, 150);
 
         Font font1 = new Font("arial", Font.BOLD, 30);
         g.setFont(font1);
