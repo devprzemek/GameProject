@@ -2,8 +2,10 @@ package com.game;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 public class MouseInput implements MouseListener {
+
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -26,6 +28,11 @@ public class MouseInput implements MouseListener {
             if(my >= 200 && my <= 250) {
                 Game.state = Game.GAME_STATE.GAME;
                 MainWindow mainWindow = new MainWindow();
+                try {
+                    mainWindow.drawPumpkinObjects();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
 

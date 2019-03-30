@@ -17,12 +17,8 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
 
     private BufferedImage image;
-    private BufferedImage bufferedImage;
 
     private Menu menu;
-    private MainWindow mainWindow;
-
-    private static PumpkinObject pumpkinObject;
 
     public enum GAME_STATE {
         MENU,
@@ -36,7 +32,6 @@ public class Game extends Canvas implements Runnable {
 
     public Game() {
         GameReader.loadParametricFile("par.txt");
-        System.out.println(GameReader.props.getProperty("początkowaSzerokośćPlanszy"));
         this.WIDTH = parseInt(GameReader.props.getProperty("początkowaSzerokośćPlanszy"));
         this.HEIGHT = parseInt(GameReader.props.getProperty("początkowaWysokośćPlanszy"));
         this.TITLE = GameReader.props.getProperty("nazwaGry");
@@ -44,9 +39,6 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void init(){
-        ImageLoader loader = new ImageLoader();
-        bufferedImage = loader.loadImage("/celownik.png");
-        pumpkinObject = new PumpkinObject(bufferedImage);
         menu = new Menu();
         this.addMouseListener(new MouseInput());
     }
@@ -125,7 +117,7 @@ public class Game extends Canvas implements Runnable {
         Graphics g = bufferStrategy.getDrawGraphics();
 
         if (state == GAME_STATE.GAME){
-            pumpkinObject.render(g);
+            //mainWindow.render(g);
 
         }
         else if (state == GAME_STATE.MENU){
@@ -138,10 +130,6 @@ public class Game extends Canvas implements Runnable {
     }
 
     //test
-
-    public static PumpkinObject getPumpkinObject(){
-        return pumpkinObject;
-    }
 
     public static void main(String[] args){
 

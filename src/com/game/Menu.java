@@ -16,6 +16,8 @@ public class Menu extends Canvas{
     public void render(Graphics g){
 
         Graphics2D g2D = (Graphics2D) g;
+        //g2D.setColor(new Color(0x00A693));
+
         Font font0 = new Font("helvetica", Font.BOLD,50);
         g.setFont(font0);
         g.setColor(Color.RED);
