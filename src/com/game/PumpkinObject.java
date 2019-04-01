@@ -28,6 +28,8 @@ public class PumpkinObject {
         int width = (int) (sizeOfObject * Game.WIDTH * 0.01);
         int height = (int) (sizeOfObject * Game.WIDTH * 0.01);
 
+
+
         Image newImage = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
         return newImage;

@@ -54,16 +54,23 @@ public class MainWindow extends JFrame {
 
     public void drawPumpkinObjects() throws IOException {
 
-        for(int i = 0; i < tableOfPumpkins.length; i++) {
-            BufferedImage image = tableOfPumpkins[i].image;
-            Image resized = PumpkinObject.resize(image, tableOfPumpkins[i].getSizeOfObject());
+        Dimension size2 = getSize();
+        int d = Math.min(size2.width, size2.height);
+        int x = (size2.width - d) / 2;
+        int y = (size2.height - d) / 2;
 
-            labelTable[i] = new JLabel(new ImageIcon(resized));
-            labelTable[i].setBounds(tableOfPumpkins[i].getX_coordinate(), tableOfPumpkins[i].getY_coordinate(), (int) (tableOfPumpkins[i].getSizeOfObject() * Game.WIDTH * 0.01), (int) (tableOfPumpkins[i].getSizeOfObject() * Game.WIDTH * 0.01));
+        for (int i = 0; i < tableOfPumpkins.length; i++) {
+            BufferedImage image = tableOfPumpkins[i].image;
+            Image resizedImage = PumpkinObject.resize(image, tableOfPumpkins[i].getSizeOfObject());
+
+            labelTable[i] = new JLabel(new ImageIcon(resizedImage));
+            labelTable[i].setBounds(tableOfPumpkins[i].getX_coordinate(), (int) tableOfPumpkins[i].getY_coordinate(), (int) (tableOfPumpkins[i].getSizeOfObject() * Game.WIDTH * 0.01), (int) (tableOfPumpkins[i].getSizeOfObject() * Game.WIDTH * 0.01));
             panel_01.add(labelTable[i]);
+            panel_01.revalidate();
             panel_01.repaint();
-            mainFrame.repaint();
         }
     }
 
+
 }
+
