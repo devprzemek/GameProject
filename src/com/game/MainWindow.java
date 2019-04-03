@@ -9,13 +9,13 @@ public class MainWindow extends JFrame {
 
     private PumpkinObject[] tableOfPumpkins = new PumpkinObject[5];
     private ImageLoader imageLoader = new ImageLoader();
-    private JLabel[] labelTable = new JLabel[5];
+    private JButton[] buttonsTable = new JButton[5];
 
     private JFrame mainFrame;
     private JPanel panel_01 = new JPanel();
-    private JPanel panel_02 = new JPanel();
+    public JPanel panel_02 = new JPanel();
 
-    private String text = "<html>Liczba żyć: <br/><br/><br/>Czas gry: <br/><br/><br/>Liczba punktów: </html>";
+    private String text = "<html>Liczba żyć: <br/><br/><br/><br/><br/><br/><br/>Czas gry: <br/><br/><br/><br/><br/><br/><br/>Liczba punktów: </html>";
     JLabel panel_02text = new JLabel(text);
 
     public MainWindow() {
@@ -27,15 +27,14 @@ public class MainWindow extends JFrame {
         panel_02.setBackground(Color.DARK_GRAY);
         panel_02.add(panel_02text);
 
-
         mainFrame = new JFrame(Game.TITLE);
+        mainFrame.setResizable(true);
         mainFrame.setDefaultCloseOperation(mainFrame.getDefaultCloseOperation());
         mainFrame.setPreferredSize(new Dimension(Game.WIDTH, Game.HEIGHT));
         mainFrame.getContentPane().setBackground(Color.BLACK);
 
         mainFrame.add(panel_01, BorderLayout.CENTER);
         mainFrame.add(panel_02, BorderLayout.EAST);
-
 
         mainFrame.pack();
         mainFrame.setResizable(true);
@@ -63,9 +62,9 @@ public class MainWindow extends JFrame {
             BufferedImage image = tableOfPumpkins[i].image;
             Image resizedImage = PumpkinObject.resize(image, tableOfPumpkins[i].getSizeOfObject());
 
-            labelTable[i] = new JLabel(new ImageIcon(resizedImage));
-            labelTable[i].setBounds(tableOfPumpkins[i].getX_coordinate(), (int) tableOfPumpkins[i].getY_coordinate(), (int) (tableOfPumpkins[i].getSizeOfObject() * Game.WIDTH * 0.01), (int) (tableOfPumpkins[i].getSizeOfObject() * Game.WIDTH * 0.01));
-            panel_01.add(labelTable[i]);
+            buttonsTable[i] = new JButton(new ImageIcon(resizedImage));
+            buttonsTable[i].setBounds(tableOfPumpkins[i].getX_coordinate(), (int) tableOfPumpkins[i].getY_coordinate(), (int) (tableOfPumpkins[i].getSizeOfObject() * Game.WIDTH * 0.01), (int) (tableOfPumpkins[i].getSizeOfObject() * Game.WIDTH * 0.01));
+            panel_01.add(buttonsTable[i]);
             panel_01.revalidate();
             panel_01.repaint();
         }

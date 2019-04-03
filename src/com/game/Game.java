@@ -3,7 +3,7 @@ package com.game;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
+
 
 import static java.lang.Integer.parseInt;
 
@@ -12,13 +12,13 @@ public class Game extends Canvas implements Runnable {
     public static int WIDTH;
     public static int HEIGHT;
     public static String TITLE;
+    public static int numberOfLevels;
 
     private boolean running = false;
     private Thread thread;
 
-    private BufferedImage image;
-
     private Menu menu;
+    public static Player player = new Player();
 
     public enum GAME_STATE {
         MENU,
@@ -35,7 +35,7 @@ public class Game extends Canvas implements Runnable {
         this.WIDTH = parseInt(GameReader.props.getProperty("początkowaSzerokośćPlanszy"));
         this.HEIGHT = parseInt(GameReader.props.getProperty("początkowaWysokośćPlanszy"));
         this.TITLE = GameReader.props.getProperty("nazwaGry");
-        image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        this.numberOfLevels = parseInt(GameReader.props.getProperty("liczbaPoziomów"));
     }
 
     public void init(){
@@ -117,7 +117,7 @@ public class Game extends Canvas implements Runnable {
         Graphics g = bufferStrategy.getDrawGraphics();
 
         if (state == GAME_STATE.GAME){
-            //mainWindow.render(g);
+            //
 
         }
         else if (state == GAME_STATE.MENU){
@@ -149,5 +149,4 @@ public class Game extends Canvas implements Runnable {
 
         game.start();
     }
-
 }
