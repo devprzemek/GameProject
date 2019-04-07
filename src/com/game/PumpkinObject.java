@@ -4,13 +4,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+/**
+ * Klasa ładująca plik graficzny do zestrzelenia
+ */
 
 public class PumpkinObject {
 
     public BufferedImage image;
 
     private double sizeOfObject;
-
     private int x_coordinate;
     private int y_coordinate;
 
@@ -23,12 +25,9 @@ public class PumpkinObject {
         this.y_coordinate = generator.nextInt(Game.HEIGHT - 50);
     }
 
-
     public static Image resize(BufferedImage img, double sizeOfObject) {
         int width = (int) (sizeOfObject * Game.WIDTH * 0.01);
         int height = (int) (sizeOfObject * Game.WIDTH * 0.01);
-
-
 
         Image newImage = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 

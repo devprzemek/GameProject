@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Klasa pobiera nazwę gracza
+ * Klasa pobierająca nazwę gracza oraz kod premium
  */
 
 public class DataPanel extends JDialog implements ActionListener {

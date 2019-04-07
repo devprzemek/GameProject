@@ -5,6 +5,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Klasa obsługująca główne okno gry
+ */
+
 public class MainWindow extends JFrame {
 
     private PumpkinObject[] tableOfPumpkins = new PumpkinObject[5];

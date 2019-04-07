@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 /**
- * Klasa dodaje nowego gracza
+ * Klasa dodająca nowego gracza
  */
 
 public class DialogWindow extends JFrame implements ActionListener {
@@ -45,6 +45,7 @@ public class DialogWindow extends JFrame implements ActionListener {
         dataPanel.setFocus();
 
         Game.player.setName(dataPanel.getPlayerName()); //ustawienie nazwy gracza
+        Game.player.setNumberOfLives(dataPanel.getGameCode()); //ustawienie nazwy gracza
 
         frame.setVisible(false);
         frame.dispose();

@@ -3,6 +3,10 @@ package com.game;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Klasa tworząca okno z najlepszymi wynikami
+ */
+
 public class GameResult extends JFrame {
 
     public GameResult() {

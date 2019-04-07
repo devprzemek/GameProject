@@ -4,6 +4,11 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Klasa zawierająca główny mechanizm ładowania plików graficznych
+ * do programu
+ */
+
 public class ImageLoader {
 
     private BufferedImage image;

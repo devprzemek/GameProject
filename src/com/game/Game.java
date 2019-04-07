@@ -3,9 +3,11 @@ package com.game;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-
-
 import static java.lang.Integer.parseInt;
+
+/**
+ * Główna klasa obsługująca mechanizm gry
+ */
 
 public class Game extends Canvas implements Runnable {
 
@@ -13,6 +15,7 @@ public class Game extends Canvas implements Runnable {
     public static int HEIGHT;
     public static String TITLE;
     public static int numberOfLevels;
+    public static String backGroundColor;
 
     private boolean running = false;
     private Thread thread;
@@ -36,6 +39,7 @@ public class Game extends Canvas implements Runnable {
         this.HEIGHT = parseInt(GameReader.props.getProperty("początkowaWysokośćPlanszy"));
         this.TITLE = GameReader.props.getProperty("nazwaGry");
         this.numberOfLevels = parseInt(GameReader.props.getProperty("liczbaPoziomów"));
+        this.backGroundColor = GameReader.props.getProperty("klorTła");
     }
 
     public void init(){

@@ -2,11 +2,14 @@ package com.game;
 
 import java.awt.*;
 
+/**
+ * Klasa tworząca menu gry
+ */
+
 public class Menu extends Canvas{
 
     public static final int WIDTH = 800;
     public static final int HEIGHT = 700;
-
 
     public Rectangle playButton = new Rectangle(WIDTH /3, 200, 300, 50);
     public Rectangle tableButton = new Rectangle(WIDTH / 3 , 300, 300, 50);
