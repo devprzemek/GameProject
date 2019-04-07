@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * Klasa dodająca nowego gracza
@@ -51,10 +50,6 @@ public class DialogWindow extends JFrame implements ActionListener {
         frame.dispose();
 
         MainWindow mainWindow = new MainWindow();
-        try {
-            mainWindow.drawPumpkinObjects();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+        mainWindow.drawPumpkinObjects();
     }
 }

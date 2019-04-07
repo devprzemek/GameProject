@@ -55,7 +55,7 @@ public class MainWindow extends JFrame {
         }
     }
 
-    public void drawPumpkinObjects() throws IOException {
+    public void drawPumpkinObjects(){
 
         Dimension size2 = getSize();
         int d = Math.min(size2.width, size2.height);
