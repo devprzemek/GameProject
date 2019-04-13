@@ -22,11 +22,13 @@ public class Game extends Canvas implements Runnable {
 
     private Menu menu;
     public static Player player = new Player();
+    public static MainWindow mainWindow;
+    public static char[] backgroundColorTable;
 
     public enum GAME_STATE {
         MENU,
         GAME
-    };
+    }
     public static GAME_STATE state = GAME_STATE.MENU;
 
     /**
@@ -40,6 +42,7 @@ public class Game extends Canvas implements Runnable {
         this.TITLE = GameReader.props.getProperty("nazwaGry");
         this.numberOfLevels = parseInt(GameReader.props.getProperty("liczbaPoziomów"));
         this.backGroundColor = GameReader.props.getProperty("klorTła");
+        backgroundColorTable = backGroundColor.toCharArray();
     }
 
     public void init(){
@@ -121,7 +124,7 @@ public class Game extends Canvas implements Runnable {
         Graphics g = bufferStrategy.getDrawGraphics();
 
         if (state == GAME_STATE.GAME){
-            //
+            mainWindow.drawPumpkinObjects();
 
         }
         else if (state == GAME_STATE.MENU){
@@ -152,5 +155,6 @@ public class Game extends Canvas implements Runnable {
         frame0.setVisible(true);
 
         game.start();
+
     }
 }

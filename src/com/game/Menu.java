@@ -36,7 +36,7 @@ public class Menu extends Canvas{
         g2D.draw(tableButton);
         g.drawString("KONTAKT", contactButton.x + 75, contactButton.y + 35);
         g2D.draw(contactButton);
-        g.drawString("ZAKOŃCZ", quitButton.x + 75, quitButton.y + 35);
+        g.drawString("ZAKONCZ", quitButton.x + 75, quitButton.y + 35);
         g2D.draw(quitButton);
     }
 }

@@ -25,8 +25,6 @@ public class MouseInput implements MouseListener {
         //playButton
         if(mx >= Menu.WIDTH /3 && mx <= Menu.WIDTH /3 + 300){
             if(my >= 200 && my <= 250) {
-                Game.state = Game.GAME_STATE.GAME;
-
                 DialogWindow dialogWindow = new DialogWindow();
             }
         }

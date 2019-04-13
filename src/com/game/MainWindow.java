@@ -3,7 +3,7 @@ package com.game;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+
 
 /**
  * Klasa obsługująca główne okno gry
@@ -20,21 +20,21 @@ public class MainWindow extends JFrame {
     public JPanel panel_02 = new JPanel();
 
     private String text = "<html>Liczba żyć: <br/><br/><br/><br/><br/><br/><br/>Czas gry: <br/><br/><br/><br/><br/><br/><br/>Liczba punktów: </html>";
-    JLabel panel_02text = new JLabel(text);
+    private JLabel panel_02text = new JLabel(text);
 
     public MainWindow() {
 
         panel_02text.setForeground(Color.RED);
         panel_01.setLayout(null);
 
-        panel_01.setBackground(new Color(88, 216,  131));
+        panel_01.setBackground(new Color(Game.backgroundColorTable[0] + Game.backgroundColorTable[1], 216,  131));
         panel_02.setBackground(Color.DARK_GRAY);
         panel_02.add(panel_02text);
 
         mainFrame = new JFrame(Game.TITLE);
-        mainFrame.setResizable(true);
         mainFrame.setDefaultCloseOperation(mainFrame.getDefaultCloseOperation());
         mainFrame.setPreferredSize(new Dimension(Game.WIDTH, Game.HEIGHT));
+        mainFrame.setResizable(true);
         mainFrame.getContentPane().setBackground(Color.BLACK);
 
         mainFrame.add(panel_01, BorderLayout.CENTER);
@@ -71,6 +71,10 @@ public class MainWindow extends JFrame {
             panel_01.add(buttonsTable[i]);
             panel_01.revalidate();
             panel_01.repaint();
+
+
+//            String text3 = "<html>Liczba żyć: <br/><html>" + System.currentTimeMillis()/1000;
+//            panel_02text.setText(text3);
         }
     }
 

@@ -49,7 +49,7 @@ public class DialogWindow extends JFrame implements ActionListener {
         frame.setVisible(false);
         frame.dispose();
 
-        MainWindow mainWindow = new MainWindow();
-        mainWindow.drawPumpkinObjects();
+        Game.mainWindow = new MainWindow();
+        Game.state = Game.GAME_STATE.GAME;
     }
 }
