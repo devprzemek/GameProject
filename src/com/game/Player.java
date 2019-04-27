@@ -5,16 +5,17 @@ package com.game;
  */
 
 public class Player {
-    private String name;
-    private int points;
-    private int numberOfLives;
+    public String name;
+    public int points = 0;
+    public int numberOfLives;
 
     public void setName(String name){
         this.name = name;
     }
 
     public void setNumberOfLives(String gameCode){
-        if(gameCode == "1111")
+
+        if(gameCode.equals("1111"))
             this.numberOfLives = 5;
         else
             this.numberOfLives = 3;

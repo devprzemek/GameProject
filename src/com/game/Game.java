@@ -3,6 +3,8 @@ package com.game;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
+
 import static java.lang.Integer.parseInt;
 
 /**
@@ -17,12 +19,16 @@ public class Game extends Canvas implements Runnable {
     public static int numberOfLevels;
     public static String backGroundColor;
 
-    private boolean running = false;
-    private Thread thread;
+    public static long timeOfGame;
+    public static ArrayList<String> bestResults = new ArrayList<>(10);
+
+    private static boolean running = false;
+    private static Thread thread;
 
     private Menu menu;
     public static Player player = new Player();
     public static MainWindow mainWindow;
+    public static GameResult gameResults;
     public static char[] backgroundColorTable;
 
     public enum GAME_STATE {
@@ -50,7 +56,7 @@ public class Game extends Canvas implements Runnable {
         this.addMouseListener(new MouseInput());
     }
 
-    private synchronized void start(){
+    public synchronized void start(){
         if (running)
             return;
 
@@ -59,7 +65,7 @@ public class Game extends Canvas implements Runnable {
         thread.start();
     }
 
-    private synchronized void stop() {
+    public static synchronized void stop() {
         if(!running)
             return;
 
@@ -155,6 +161,5 @@ public class Game extends Canvas implements Runnable {
         frame0.setVisible(true);
 
         game.start();
-
     }
 }

@@ -39,7 +39,7 @@ public class MouseInput implements MouseListener {
         //tableButton
         if(mx >= Menu.WIDTH /3 && mx <= Menu.WIDTH /3 + 300){
             if(my >= 300 && my <= 350) {
-                GameResult results = new GameResult();
+                Game.gameResults = new GameResult();
             }
         }
     }

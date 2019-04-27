@@ -44,7 +44,7 @@ public class DialogWindow extends JFrame implements ActionListener {
         dataPanel.setFocus();
 
         Game.player.setName(dataPanel.getPlayerName()); //ustawienie nazwy gracza
-        Game.player.setNumberOfLives(dataPanel.getGameCode()); //ustawienie nazwy gracza
+        Game.player.setNumberOfLives(dataPanel.getGameCode()); //ustawienie liczby żyć
 
         frame.setVisible(false);
         frame.dispose();
