@@ -19,12 +19,11 @@ public class MainWindow extends JFrame {
     private ImageLoader imageLoader = new ImageLoader();
     private JButton[] buttonsTable = new JButton[5];
 
-    private JFrame mainFrame;
+    public JFrame mainFrame;
     private JPanel panel_01 = new JPanel();
     public JPanel panel_02 = new JPanel();
 
-    private int click = 1;
-    private String text = "<html>Liczba żyć: <br/><br/><br/><br/><br/><br/><br/>Czas gry: <br/><br/><br/><br/><br/><br/><br/>Liczba punktów: </html>";
+    private String text = "<html>Liczba żyć: <br/><br/><br/>Numer poziomu: <br/><br/><br/>Czas gry: <br/><br/><br/><br/><br/><br/>Liczba punktów: </html>";
     private JLabel panel_02text = new JLabel(text);
 
     private final long startTime;
@@ -57,7 +56,8 @@ public class MainWindow extends JFrame {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
 
-        init();
+        createPumpkinObjects();
+        Game.level.createLevel(Game.level.getCurrentLevel());
 
     }
 
@@ -78,19 +78,19 @@ public class MainWindow extends JFrame {
         }
     }
 
-    public void init() {
+    public void createPumpkinObjects() {
         for (int i = 0; i < tableOfPumpkins.length; i++) {
             tableOfPumpkins[i] = new PumpkinObject(imageLoader.loadImage("/pumpkin.png"));
             buttonsTable[i] = new JButton();
 
             int finalI = i;
             buttonsTable[i].addActionListener(event -> {
-                click += 1;
                 panel_01.remove(buttonsTable[finalI]);
                 buttonsTable[finalI] = null;
                 panel_01.revalidate();
                 panel_01.repaint();
                 Game.player.points += 100;
+                Game.level.increaseLevel(Game.player.points);
             });
 
             BufferedImage image = tableOfPumpkins[i].image;
@@ -107,23 +107,26 @@ public class MainWindow extends JFrame {
         while(running){
             currentTime = System.currentTimeMillis();
             Game.timeOfGame = (currentTime - startTime) / 1000;
-            String textPoints = "<html>Liczba żyć: <br/><html>" + Game.player.numberOfLives + "<html><br/><br/><br/><br/><br/><br/><br/>Czas gry: <br/><html>" + Game.timeOfGame + " [s]" + "<html><br/><br/><br/><br/><br/><br/><br/>Liczba punktów: <br/><html>" + Game.player.points;
-            panel_02text.setText(textPoints);
+            text = "<html>Liczba żyć: <br/><html>" + Game.player.numberOfLives + "<html><br/><br/><br/><br/><br/>Numer poziomu: <br/><html>" + Game.level.getCurrentLevel() + "<html><br/><br/><br/><br/><br/>Czas gry: <br/><html>" + Game.timeOfGame + " [s]" + "<html><br/><br/><br/><br/><br/>Liczba punktów: <br/><html>" + Game.player.points;
+            panel_02text.setText(text);
 
             if(Game.player.numberOfLives == 0){
                 running = false;
                 Game.gameResults.saveResult();
-                //okno koca gry
+                Game.state = Game.GAME_STATE.MENU;
+
+                //wywołanie okna informującego o końcu gry
+                JDialog dialog = new GameDialogWindow(this);
             }
 
-            if(Game.timeOfGame  % 5 == 0 && Game.player.numberOfLives > 0){
+            if(Game.timeOfGame  % Game.level.timeForShooting == 0 && Game.timeOfGame > 0 && Game.player.numberOfLives > 0){
                 try {
                     sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 removeLeftObjects();
-                init();
+                createPumpkinObjects();
             }
         }
     }
@@ -139,6 +142,10 @@ public class MainWindow extends JFrame {
                 panel_01.repaint();
             }
         }
+    }
+
+    public void pause(boolean b){
+        running = b;
     }
 
 }

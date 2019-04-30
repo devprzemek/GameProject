@@ -2,7 +2,7 @@ package com.game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
  * Klasa tworząca okno z najlepszymi wynikami
@@ -22,16 +22,21 @@ public class GameResult extends JFrame {
         frame1.setLocationRelativeTo(null);
         frame1.setVisible(true);
 
-        showResults();
+        showResults(Game.bestResults);
     }
 
     public static void saveResult(){
         Game.bestResults.add(Game.player.name + " " + Game.player.points);
     }
 
-    public void showResults(){
-        JLabel text1 = new JLabel(Arrays.deepToString(Game.bestResults.toArray()));
-        frame1.add(text1, BorderLayout.PAGE_START);
+    public void showResults(ArrayList<String> list){
+        String text = "<html>Najlepsze wyniki:<br/><html>";
+        for(String v : list){
+            text += "<html><html>" + v + "<html><br/><html>";
+        }
+        JLabel labelText = new JLabel(text);
+        labelText.setFont(new Font("Helvetica", Font.PLAIN, 24));
+        frame1.add(labelText, BorderLayout.PAGE_START);
         frame1.setVisible(true);
     }
 

@@ -16,17 +16,21 @@ public class Game extends Canvas implements Runnable {
     public static int WIDTH;
     public static int HEIGHT;
     public static String TITLE;
-    public static int numberOfLevels;
     public static String backGroundColor;
 
     public static long timeOfGame;
-    public static ArrayList<String> bestResults = new ArrayList<>(10);
+    public static int numberOfLevels;
+    public static int numberOfDifficultyLevels;
+    public static int difficultyRate;
 
-    private static boolean running = false;
-    private static Thread thread;
+    public static ArrayList<String> bestResults = new ArrayList<>(5);
+
+    private boolean running = false;
+    public static Thread thread;
 
     private Menu menu;
-    public static Player player = new Player();
+    public static Level level = new Level();
+    public static Player player;
     public static MainWindow mainWindow;
     public static GameResult gameResults;
     public static char[] backgroundColorTable;
@@ -42,11 +46,13 @@ public class Game extends Canvas implements Runnable {
      */
 
     public Game() {
-        GameReader.loadParametricFile("par.txt");
+        GameReader.loadParametricFile("res/par.txt");
         this.WIDTH = parseInt(GameReader.props.getProperty("początkowaSzerokośćPlanszy"));
         this.HEIGHT = parseInt(GameReader.props.getProperty("początkowaWysokośćPlanszy"));
         this.TITLE = GameReader.props.getProperty("nazwaGry");
         this.numberOfLevels = parseInt(GameReader.props.getProperty("liczbaPoziomów"));
+        this.numberOfDifficultyLevels = parseInt(GameReader.props.getProperty("liczbaStopniTrudności"));
+        this.difficultyRate = parseInt(GameReader.props.getProperty("zmianaStopniaTrudności")) / 100;
         this.backGroundColor = GameReader.props.getProperty("klorTła");
         backgroundColorTable = backGroundColor.toCharArray();
     }
@@ -65,7 +71,7 @@ public class Game extends Canvas implements Runnable {
         thread.start();
     }
 
-    public static synchronized void stop() {
+    public synchronized void stop() {
         if(!running)
             return;
 
@@ -76,7 +82,6 @@ public class Game extends Canvas implements Runnable {
         catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         System.exit(0);
     }
 
@@ -97,7 +102,6 @@ public class Game extends Canvas implements Runnable {
             lastTime = now;
 
             if (delta > 1){
-                tick();
                 updates++;
                 delta--;
             }
@@ -111,13 +115,6 @@ public class Game extends Canvas implements Runnable {
             }
         }
         stop();
-
-    }
-
-    private void tick(){
-        if (state == GAME_STATE.GAME) {
-
-        }
     }
 
     private void render(){

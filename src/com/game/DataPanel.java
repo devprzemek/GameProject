@@ -62,9 +62,6 @@ public class DataPanel extends JDialog implements ActionListener {
         return new String(pGameCode.getPassword());
     }
 
-    public boolean isOK(){
-        return okData;
-    }
 
     public void setFocus(){
         tPlayerName.requestFocusInWindow();

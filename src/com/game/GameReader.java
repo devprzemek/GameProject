@@ -15,7 +15,7 @@ public class GameReader {
 
         props = new Properties();
 
-        try (Reader r = new BufferedReader(new FileReader("res/par.txt"))) {
+        try (Reader r = new BufferedReader(new FileReader(fileName))) {
             props.load(r);
         } catch (FileNotFoundException fnfe) {
             System.out.println("Nie znaleziono pliku parametrycznego");

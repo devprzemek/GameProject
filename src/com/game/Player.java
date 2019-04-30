@@ -21,11 +21,7 @@ public class Player {
             this.numberOfLives = 3;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
-    }
-
-    public int getNumberOfLives() {
-        return numberOfLives;
     }
 }
