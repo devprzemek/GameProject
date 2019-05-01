@@ -1,4 +1,4 @@
-# Plik parametryczny opisujący pozioom gry.
+﻿# Plik parametryczny opisujący pozioom gry.
 # Komentarz zaczyna się od znaku # i obowiązuje do końca linii.
 # Parametry są zapisane w postaci par {nazwa}={wartość}.
 liczbaObiektówDoZestrzelenia=5

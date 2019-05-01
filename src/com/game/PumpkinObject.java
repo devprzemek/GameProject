@@ -21,13 +21,14 @@ public class PumpkinObject {
         this.image = image;
         this.sizeOfObject = Double.parseDouble(GameReader.props.getProperty("początkowaSzerokośćObiektuGryJakoProcentPoczątkowejSzerokościPlanszy"));;
         Random generator = new Random();
-        this.x_coordinate = generator.nextInt(Game.WIDTH - 150); //parametr
-        this.y_coordinate = generator.nextInt(Game.HEIGHT - 50);
+
+        this.x_coordinate = generator.nextInt(Game.mainWindow.mainFrame.getSize().width - 150); //parametr
+        this.y_coordinate = generator.nextInt(Game.mainWindow.mainFrame.getSize().height - 100);
     }
 
     public static Image resize(BufferedImage img, double sizeOfObject) {
-        int width = (int) (sizeOfObject * Game.WIDTH * 0.01);
-        int height = (int) (sizeOfObject * Game.WIDTH * 0.01);
+        int width = (int) (sizeOfObject * (Game.WIDTH + (Game.mainWindow.mainFrame.getSize().width - Game.WIDTH)) * 0.01);
+        int height = (int) (sizeOfObject * (Game.HEIGHT + (Game.mainWindow.mainFrame.getSize().height - Game.HEIGHT)) * 0.01);
 
         Image newImage = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
@@ -36,6 +37,14 @@ public class PumpkinObject {
 
     public double getSizeOfObject(){
         return sizeOfObject;
+    }
+
+    public void setX_coordinate(int x){
+        x_coordinate = x;
+    }
+
+    public void setY_coordinate(int y){
+        y_coordinate = y;
     }
 
     public int getX_coordinate(){

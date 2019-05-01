@@ -4,13 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 
 import static java.lang.Thread.sleep;
 
-
 /**
- * Klasa obsługująca główne okno gry
+ * Klasa obsługująca główne okno gry z animacją
  */
 
 public class MainWindow extends JFrame {
@@ -31,6 +29,9 @@ public class MainWindow extends JFrame {
 
     private boolean running = true;
 
+    /**
+     * Konstruktor klasy MainWindow
+     */
     public MainWindow() {
         startTime = System.currentTimeMillis();
 
@@ -43,22 +44,21 @@ public class MainWindow extends JFrame {
 
         mainFrame = new JFrame(Game.TITLE);
         mainFrame.setDefaultCloseOperation(mainFrame.getDefaultCloseOperation());
-        mainFrame.setPreferredSize(new Dimension(Game.WIDTH, Game.HEIGHT));
-        mainFrame.setResizable(true);
+        mainFrame.setSize(new Dimension(Game.WIDTH, Game.HEIGHT));
+        mainFrame.setPreferredSize(new Dimension(Game.WIDTH + (mainFrame.getSize().width - Game.WIDTH), Game.HEIGHT + (mainFrame.getSize().height - Game.HEIGHT)));
+
         mainFrame.getContentPane().setBackground(Color.BLACK);
 
         mainFrame.add(panel_01, BorderLayout.CENTER);
         mainFrame.add(panel_02, BorderLayout.EAST);
         mainFrame.addMouseMotionListener(new MouseMotionHandler());
 
-        mainFrame.pack();
         mainFrame.setResizable(true);
+        mainFrame.pack();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
 
-        createPumpkinObjects();
         Game.level.createLevel(Game.level.getCurrentLevel());
-
     }
 
     private class MouseMotionHandler implements MouseMotionListener{
@@ -78,6 +78,9 @@ public class MainWindow extends JFrame {
         }
     }
 
+    /**
+     * Metoda tworząca obiekty do zestrzelenia
+     */
     public void createPumpkinObjects() {
         for (int i = 0; i < tableOfPumpkins.length; i++) {
             tableOfPumpkins[i] = new PumpkinObject(imageLoader.loadImage("/pumpkin.png"));
@@ -93,22 +96,30 @@ public class MainWindow extends JFrame {
                 Game.level.increaseLevel(Game.player.points);
             });
 
-            BufferedImage image = tableOfPumpkins[i].image;
-            Image resizedImage = PumpkinObject.resize(image, tableOfPumpkins[i].getSizeOfObject());
+            Image resizedImage = PumpkinObject.resize(tableOfPumpkins[i].image, tableOfPumpkins[i].getSizeOfObject());
 
             buttonsTable[i].setIcon(new ImageIcon(resizedImage));
-            buttonsTable[i].setBounds(tableOfPumpkins[i].getX_coordinate(), (int) tableOfPumpkins[i].getY_coordinate(), (int) (tableOfPumpkins[i].getSizeOfObject() * Game.WIDTH * 0.01), (int) (tableOfPumpkins[i].getSizeOfObject() * Game.WIDTH * 0.01));
+            buttonsTable[i].setBounds(tableOfPumpkins[i].getX_coordinate(), (int) tableOfPumpkins[i].getY_coordinate(), (int) (tableOfPumpkins[i].getSizeOfObject() * (Game.WIDTH + (mainFrame.getSize().width - Game.WIDTH)) * 0.01), (int) (tableOfPumpkins[i].getSizeOfObject() * (Game.WIDTH + (mainFrame.getSize().height - Game.HEIGHT)) * 0.01));
             panel_01.add(buttonsTable[i]);
             panel_01.repaint();
         }
     }
 
+    /**
+     * Metoda rysująca obiekty do zestrzelenia oraz wygląd głównego okna gry
+     */
     public void drawPumpkinObjects() {
         while(running){
+            double windowWidth = mainFrame.getSize().width;
+
             currentTime = System.currentTimeMillis();
-            Game.timeOfGame = (currentTime - startTime) / 1000;
+            Game.timeOfGame = ((currentTime - startTime) - Game.level.pauseTime) / 1000;
             text = "<html>Liczba żyć: <br/><html>" + Game.player.numberOfLives + "<html><br/><br/><br/><br/><br/>Numer poziomu: <br/><html>" + Game.level.getCurrentLevel() + "<html><br/><br/><br/><br/><br/>Czas gry: <br/><html>" + Game.timeOfGame + " [s]" + "<html><br/><br/><br/><br/><br/>Liczba punktów: <br/><html>" + Game.player.points;
             panel_02text.setText(text);
+
+            if(frameSizeChanged(windowWidth)){
+                scale();
+            }
 
             if(Game.player.numberOfLives == 0){
                 running = false;
@@ -131,6 +142,9 @@ public class MainWindow extends JFrame {
         }
     }
 
+    /**
+     * Metoda usuwająca niezestrzelone obiekty
+     */
     public void removeLeftObjects() {
         for (int i = 0; i < tableOfPumpkins.length; i++) {
             if(buttonsTable[i] != null){
@@ -142,6 +156,38 @@ public class MainWindow extends JFrame {
                 panel_01.repaint();
             }
         }
+    }
+
+    /**
+     * Metoda skalująca rozmiar obiektów i ich położenie
+     */
+    public void scale(){
+        for (int i = 0; i < tableOfPumpkins.length; i++) {
+            if(buttonsTable[i] != null){
+
+//                tableOfPumpkins[i].setX_coordinate(); Game.mainWindow.mainFrame.getSize().width - 150);
+//                tableOfPumpkins[i].setY_coordinate(); Game.mainWindow.mainFrame.getSize().width - 150);
+
+                //skalowanie rozmiaru obiektów
+                Image resizedImage = PumpkinObject.resize(tableOfPumpkins[i].image, tableOfPumpkins[i].getSizeOfObject());
+                System.out.println(i);
+                buttonsTable[i].setIcon(new ImageIcon(resizedImage));
+                buttonsTable[i].setBounds(tableOfPumpkins[i].getX_coordinate(), tableOfPumpkins[i].getY_coordinate(), (int) (tableOfPumpkins[i].getSizeOfObject() * (Game.WIDTH + (mainFrame.getSize().width - Game.WIDTH)) * 0.01), (int) (tableOfPumpkins[i].getSizeOfObject() * (Game.WIDTH + (mainFrame.getSize().height - Game.HEIGHT)) * 0.01));
+            }
+        }
+    }
+
+    /**
+     * Metoda sprawdzająca czy rozmiar okna głównego uległ zmianie
+     * @param size Poprzednia wielkość okna
+     * @return Wartość logiczna informująca o zmianie rozmiaru okna lub nie
+    */
+    public boolean frameSizeChanged(double size){
+        if(mainFrame.getSize().width != size){
+            return true;
+        }
+        else
+            return false;
     }
 
     public void pause(boolean b){

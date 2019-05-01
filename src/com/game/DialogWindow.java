@@ -51,6 +51,7 @@ public class DialogWindow extends JFrame implements ActionListener {
         frame.dispose();
 
         Game.mainWindow = new MainWindow();
+        Game.mainWindow.createPumpkinObjects();
         Game.state = Game.GAME_STATE.GAME;
     }
 }

@@ -26,6 +26,7 @@ public class GameDialogWindow extends JDialog {
             setVisible(false);
             Game.mainWindow.mainFrame.setVisible(false);
             Game.mainWindow.dispose();
+            Game.level.pauseTime = 0;
         });
 
         JPanel panel = new JPanel();

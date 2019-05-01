@@ -39,7 +39,4 @@ public class GameResult extends JFrame {
         frame1.add(labelText, BorderLayout.PAGE_START);
         frame1.setVisible(true);
     }
-
-
-
 }
