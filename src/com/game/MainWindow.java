@@ -8,17 +8,17 @@ import java.awt.event.MouseMotionListener;
 import static java.lang.Thread.sleep;
 
 /**
- * Klasa obsługująca główne okno gry z animacją
+ * Klasa obsługująca główne okno gry z animacją rozszerzająca klasę JFrame
  */
 
 public class MainWindow extends JFrame {
 
-    private PumpkinObject[] tableOfPumpkins = new PumpkinObject[5];
+    public PumpkinObject[] tableOfPumpkins = new PumpkinObject[5];
     private ImageLoader imageLoader = new ImageLoader();
-    private JButton[] buttonsTable = new JButton[5];
+    public JButton[] buttonsTable = new JButton[5];
 
     public JFrame mainFrame;
-    private JPanel panel_01 = new JPanel();
+    public JPanel panel_01 = new JPanel();
     public JPanel panel_02 = new JPanel();
 
     private String text = "<html>Liczba żyć: <br/><br/><br/>Numer poziomu: <br/><br/><br/>Czas gry: <br/><br/><br/><br/><br/><br/>Liczba punktów: </html>";
@@ -58,7 +58,7 @@ public class MainWindow extends JFrame {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
 
-        Game.level.createLevel(Game.level.getCurrentLevel());
+        Game.level.createLevel(Game.player.points);
     }
 
     private class MouseMotionHandler implements MouseMotionListener{
@@ -88,12 +88,14 @@ public class MainWindow extends JFrame {
 
             int finalI = i;
             buttonsTable[i].addActionListener(event -> {
+                Sound.playSound("res/sound/strzelanie2.wav");
                 panel_01.remove(buttonsTable[finalI]);
                 buttonsTable[finalI] = null;
                 panel_01.revalidate();
                 panel_01.repaint();
                 Game.player.points += 100;
                 Game.level.increaseLevel(Game.player.points);
+                //Game.level.createLevel(Game.player.points);
             });
 
             Image resizedImage = PumpkinObject.resize(tableOfPumpkins[i].image, tableOfPumpkins[i].getSizeOfObject());
@@ -126,6 +128,7 @@ public class MainWindow extends JFrame {
                 Game.gameResults.saveResult();
                 Game.state = Game.GAME_STATE.MENU;
 
+                Sound.playSound("res/sound/koniecgry.wav");
                 //wywołanie okna informującego o końcu gry
                 JDialog dialog = new GameDialogWindow(this);
             }
@@ -170,7 +173,6 @@ public class MainWindow extends JFrame {
 
                 //skalowanie rozmiaru obiektów
                 Image resizedImage = PumpkinObject.resize(tableOfPumpkins[i].image, tableOfPumpkins[i].getSizeOfObject());
-                System.out.println(i);
                 buttonsTable[i].setIcon(new ImageIcon(resizedImage));
                 buttonsTable[i].setBounds(tableOfPumpkins[i].getX_coordinate(), tableOfPumpkins[i].getY_coordinate(), (int) (tableOfPumpkins[i].getSizeOfObject() * (Game.WIDTH + (mainFrame.getSize().width - Game.WIDTH)) * 0.01), (int) (tableOfPumpkins[i].getSizeOfObject() * (Game.WIDTH + (mainFrame.getSize().height - Game.HEIGHT)) * 0.01));
             }
@@ -193,6 +195,5 @@ public class MainWindow extends JFrame {
     public void pause(boolean b){
         running = b;
     }
-
 }
 

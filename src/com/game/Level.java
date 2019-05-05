@@ -2,9 +2,11 @@ package com.game;
 
 import javax.swing.*;
 
-import java.sql.Time;
-
 import static java.lang.Integer.parseInt;
+
+/**
+ * Klasa obsługująca i tworząca poziomy gry
+ */
 
 public class Level {
     private int currentLevel = 0;
@@ -14,31 +16,56 @@ public class Level {
     //czas wyświetlania okna dialogowego
     public long pauseTime = 0;
 
+    /**
+     * Konstruktor klasy Level ładujący dane z odpowiedniego pliku poziomu
+     */
     public Level(){
         GameReader.loadParametricFile("res/poziom0.txt");
         this.numberOfPumpkinObjects = parseInt(GameReader.props.getProperty("liczbaObiektówDoZestrzelenia"));
         this.timeForShooting = parseInt(GameReader.props.getProperty("czasNaZestrzelenieObiektu"));
     }
 
-    public void createLevel(int currentLevel){
-        if(currentLevel == 1){
-            //GameReader.loadParametricFile("poziom0.txt");
+    /**
+     * Metoda tworząca poziom gry uzależniony od liczby punktów
+     * @param points Liczba punktów gracza
+     */
+    public void createLevel(int points){
+        System.out.println(Game.level.timeForShooting);
+        if(points == 1000){
+            GameReader.loadParametricFile("res/poziom1.txt");
+            this.numberOfPumpkinObjects = parseInt(GameReader.props.getProperty("liczbaObiektówDoZestrzelenia"));
+            this.timeForShooting = parseInt(GameReader.props.getProperty("czasNaZestrzelenieObiektu"));
         }
-        else{
-            //GameReader.loadParametricFile("poziom0.txt");
+        if(points == 2000){
+            GameReader.loadParametricFile("res/poziom2.txt");
+            this.numberOfPumpkinObjects = parseInt(GameReader.props.getProperty("liczbaObiektówDoZestrzelenia"));
+            this.timeForShooting = parseInt(GameReader.props.getProperty("czasNaZestrzelenieObiektu"));
         }
     }
 
+    /**
+     * Metoda zwiększająca poziom gry oraz wyświetlająca komunikat
+     * o odblokowaniu nowego poziomu
+     * @param points Liczba punktów gracza
+     */
     public void increaseLevel(int points){
         if(points >= 0 && points < 1000){
-            currentLevel = 0;
+            this.currentLevel = 0;
         }
 
         else if(points >= 1000 && points < 2000){
-            currentLevel = 1;
+            this.currentLevel = 1;
             if(points == 1000){
-                long startTime = System.currentTimeMillis();
                 Game.mainWindow.pause(false);
+                long startTime = System.currentTimeMillis();
+                Sound.playSound("res/sound/nowypoziom.wav");
+                for (int i = 0; i < Game.mainWindow.tableOfPumpkins.length; i++) {
+                    if(Game.mainWindow.buttonsTable[i] != null){
+                        Game.mainWindow.panel_01.remove(Game.mainWindow.buttonsTable[i]);
+                        Game.mainWindow.panel_01.revalidate();
+                        Game.mainWindow.panel_01.repaint();
+                    }
+                }
                 JOptionPane.showMessageDialog(Game.mainWindow.mainFrame, "Odblokowałeś nowy poziom", "Etap gry", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("res/minka.png"));
                 long endTime = System.currentTimeMillis();
                 this.pauseTime = endTime - startTime;
@@ -48,20 +75,31 @@ public class Level {
         }
 
         else{
-            currentLevel = 2;
+            this.currentLevel = 2;
             if(points == 2000){
-                long startTime = System.currentTimeMillis();
                 Game.mainWindow.pause(false);
-                JOptionPane.showMessageDialog(Game.mainWindow.mainFrame, "Odblokowałeś nowy poziom", "Etap gry", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("res/minka.png"));
+                long startTime = System.currentTimeMillis();
+                Sound.playSound("res/sound/nowypoziom.wav");
+                for (int i = 0; i < Game.mainWindow.tableOfPumpkins.length; i++) {
+                    if(Game.mainWindow.buttonsTable[i] != null){
+                        Game.mainWindow.panel_01.remove(Game.mainWindow.buttonsTable[i]);
+                        Game.mainWindow.panel_01.revalidate();
+                        Game.mainWindow.panel_01.repaint();
+                    }
+                }
+                JOptionPane.showMessageDialog(Game.mainWindow.mainFrame, "Odblokowałeś nowy poziom!", "Etap gry", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("res/minka.png"));
                 long endTime = System.currentTimeMillis();
                 this.pauseTime += endTime - startTime;
                 Game.mainWindow.pause(true);
             }
         }
 
-
     }
 
+    /**
+     * Metoda zwracająca obecny poziom
+     * @return  obecny poziom
+     */
     public int getCurrentLevel(){
         return currentLevel;
     }

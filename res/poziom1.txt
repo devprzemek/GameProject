@@ -2,4 +2,4 @@
 # Komentarz zaczyna się od znaku # i obowiązuje do końca linii.
 # Parametry są zapisane w postaci par {nazwa}={wartość}.
 liczbaObiektówDoZestrzelenia=5
-czasNaZestrzelenieObiektu=5
+czasNaZestrzelenieObiektu=4

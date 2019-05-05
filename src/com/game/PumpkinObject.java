@@ -19,7 +19,8 @@ public class PumpkinObject {
     public PumpkinObject(BufferedImage image){
 
         this.image = image;
-        this.sizeOfObject = Double.parseDouble(GameReader.props.getProperty("początkowaSzerokośćObiektuGryJakoProcentPoczątkowejSzerokościPlanszy"));;
+        GameReader.loadParametricFile("res/par.txt");
+        this.sizeOfObject = Double.parseDouble(GameReader.props.getProperty("początkowaSzerokośćObiektuGryJakoProcentPoczątkowejSzerokościPlanszy"));
         Random generator = new Random();
 
         this.x_coordinate = generator.nextInt(Game.mainWindow.mainFrame.getSize().width - 150); //parametr
