@@ -10,7 +10,7 @@ import static java.lang.Integer.parseInt;
 
 public class Level {
     private int currentLevel = 0;
-    private int numberOfPumpkinObjects;
+    int numberOfPumpkinObjects;
     public int timeForShooting;
 
     //czas wyświetlania okna dialogowego
@@ -30,13 +30,17 @@ public class Level {
      * @param points Liczba punktów gracza
      */
     public void createLevel(int points){
-        System.out.println(Game.level.timeForShooting);
-        if(points == 1000){
+        if(points == 0){
+            GameReader.loadParametricFile("res/poziom0.txt");
+            this.numberOfPumpkinObjects = parseInt(GameReader.props.getProperty("liczbaObiektówDoZestrzelenia"));
+            this.timeForShooting = parseInt(GameReader.props.getProperty("czasNaZestrzelenieObiektu"));
+        }
+        else if(points == 1000){
             GameReader.loadParametricFile("res/poziom1.txt");
             this.numberOfPumpkinObjects = parseInt(GameReader.props.getProperty("liczbaObiektówDoZestrzelenia"));
             this.timeForShooting = parseInt(GameReader.props.getProperty("czasNaZestrzelenieObiektu"));
         }
-        if(points == 2000){
+        else if(points == 2000){
             GameReader.loadParametricFile("res/poziom2.txt");
             this.numberOfPumpkinObjects = parseInt(GameReader.props.getProperty("liczbaObiektówDoZestrzelenia"));
             this.timeForShooting = parseInt(GameReader.props.getProperty("czasNaZestrzelenieObiektu"));
@@ -62,6 +66,7 @@ public class Level {
                 for (int i = 0; i < Game.mainWindow.tableOfPumpkins.length; i++) {
                     if(Game.mainWindow.buttonsTable[i] != null){
                         Game.mainWindow.panel_01.remove(Game.mainWindow.buttonsTable[i]);
+                        Game.mainWindow.buttonsTable[i] = null;
                         Game.mainWindow.panel_01.revalidate();
                         Game.mainWindow.panel_01.repaint();
                     }
@@ -83,6 +88,7 @@ public class Level {
                 for (int i = 0; i < Game.mainWindow.tableOfPumpkins.length; i++) {
                     if(Game.mainWindow.buttonsTable[i] != null){
                         Game.mainWindow.panel_01.remove(Game.mainWindow.buttonsTable[i]);
+                        Game.mainWindow.buttonsTable[i] = null;
                         Game.mainWindow.panel_01.revalidate();
                         Game.mainWindow.panel_01.repaint();
                     }
@@ -96,11 +102,16 @@ public class Level {
 
     }
 
+
     /**
      * Metoda zwracająca obecny poziom
      * @return  obecny poziom
      */
     public int getCurrentLevel(){
         return currentLevel;
+    }
+
+    public int getNumberOfPumpkinObjects(){
+        return numberOfPumpkinObjects;
     }
 }

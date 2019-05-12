@@ -1,5 +1,6 @@
 package com.game;
 
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -29,6 +30,21 @@ public class MouseInput implements MouseListener {
             }
         }
 
+        //tableButton
+        if(mx >= Menu.WIDTH /3 && mx <= Menu.WIDTH /3 + 300){
+            if(my >= 300 && my <= 350) {
+                Game.gameResults = new GameResult();
+            }
+        }
+
+        //contactButton
+        if(mx >= Menu.WIDTH /3 && mx <= Menu.WIDTH /3 + 300){
+            if(my >= 400 && my <= 450) {
+                JFrame frame = new JFrame();
+                SendEmail sendEmail = new SendEmail(frame);
+            }
+        }
+
         //quitButton
         if(mx >= Menu.WIDTH /3 && mx <= Menu.WIDTH /3 + 300){
             if(my >= 500 && my <= 550) {
@@ -36,12 +52,8 @@ public class MouseInput implements MouseListener {
             }
         }
 
-        //tableButton
-        if(mx >= Menu.WIDTH /3 && mx <= Menu.WIDTH /3 + 300){
-            if(my >= 300 && my <= 350) {
-                Game.gameResults = new GameResult();
-            }
-        }
+
+
     }
 
     @Override

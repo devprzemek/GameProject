@@ -19,7 +19,7 @@ public class GameResult extends JFrame {
         frame1.setDefaultCloseOperation(frame1.getDefaultCloseOperation());
         frame1.pack();
         frame1.setResizable(true);
-        frame1.setLocationRelativeTo(null);
+        frame1.setLocation(585,250);
         frame1.setVisible(true);
 
         showResults(Game.bestResults);

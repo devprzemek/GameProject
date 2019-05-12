@@ -18,6 +18,8 @@ public class Game extends Canvas implements Runnable {
     public static String TITLE;
     public static String backGroundColor;
 
+
+    public static int numberOfObjects;
     public static long timeOfGame;
     public static int numberOfLevels;
     public static int numberOfDifficultyLevels;
@@ -55,6 +57,7 @@ public class Game extends Canvas implements Runnable {
         this.difficultyRate = parseInt(GameReader.props.getProperty("zmianaStopniaTrudności")) / 100;
         this.backGroundColor = GameReader.props.getProperty("klorTła");
         backgroundColorTable = backGroundColor.toCharArray();
+        numberOfObjects = 4;
     }
 
     public void init(){
@@ -87,32 +90,8 @@ public class Game extends Canvas implements Runnable {
 
     public void run(){
         init();
-        long lastTime = System.nanoTime();
-        final double amountOfTicks = 60.0;
-        double ns = 1000000000 / amountOfTicks;
-        double delta = 0;
-
-        int updates = 0;
-        int frames = 0;
-        long timer = System.currentTimeMillis();
-
         while(running){
-            long now = System.nanoTime();
-            delta += (now - lastTime) / ns;
-            lastTime = now;
-
-            if (delta > 1){
-                updates++;
-                delta--;
-            }
             render();
-            frames++;
-            if(System.currentTimeMillis() - timer > 1000) {
-                timer += 1000;
-                //System.out.println(updates + " " + frames);
-                updates = 0;
-                frames = 0;
-            }
         }
         stop();
     }
@@ -136,10 +115,7 @@ public class Game extends Canvas implements Runnable {
 
         g.dispose();
         bufferStrategy.show();
-
     }
-
-    //test
 
     public static void main(String[] args){
 

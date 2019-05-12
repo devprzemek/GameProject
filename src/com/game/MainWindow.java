@@ -13,9 +13,9 @@ import static java.lang.Thread.sleep;
 
 public class MainWindow extends JFrame {
 
-    public PumpkinObject[] tableOfPumpkins = new PumpkinObject[5];
+    public PumpkinObject[] tableOfPumpkins = new PumpkinObject[Game.numberOfObjects];
     private ImageLoader imageLoader = new ImageLoader();
-    public JButton[] buttonsTable = new JButton[5];
+    public JButton[] buttonsTable = new JButton[Game.numberOfObjects];
 
     public JFrame mainFrame;
     public JPanel panel_01 = new JPanel();
@@ -33,8 +33,6 @@ public class MainWindow extends JFrame {
      * Konstruktor klasy MainWindow
      */
     public MainWindow() {
-        startTime = System.currentTimeMillis();
-
         panel_02text.setForeground(Color.RED);
         panel_01.setLayout(null);
 
@@ -59,13 +57,13 @@ public class MainWindow extends JFrame {
         mainFrame.setVisible(true);
 
         Game.level.createLevel(Game.player.points);
+        startTime = System.currentTimeMillis();
     }
 
     private class MouseMotionHandler implements MouseMotionListener{
 
         @Override
         public void mouseDragged(MouseEvent e) {
-
         }
 
         @Override
@@ -95,7 +93,8 @@ public class MainWindow extends JFrame {
                 panel_01.repaint();
                 Game.player.points += 100;
                 Game.level.increaseLevel(Game.player.points);
-                //Game.level.createLevel(Game.player.points);
+                if(Game.player.points == 1000 || Game.player.points == 2000)
+                Game.level.createLevel(Game.player.points);
             });
 
             Image resizedImage = PumpkinObject.resize(tableOfPumpkins[i].image, tableOfPumpkins[i].getSizeOfObject());
@@ -115,12 +114,13 @@ public class MainWindow extends JFrame {
             double windowWidth = mainFrame.getSize().width;
 
             currentTime = System.currentTimeMillis();
-            Game.timeOfGame = ((currentTime - startTime) - Game.level.pauseTime) / 1000;
-            text = "<html>Liczba żyć: <br/><html>" + Game.player.numberOfLives + "<html><br/><br/><br/><br/><br/>Numer poziomu: <br/><html>" + Game.level.getCurrentLevel() + "<html><br/><br/><br/><br/><br/>Czas gry: <br/><html>" + Game.timeOfGame + " [s]" + "<html><br/><br/><br/><br/><br/>Liczba punktów: <br/><html>" + Game.player.points;
+            Game.timeOfGame = ((currentTime - startTime) - Game.level.pauseTime) / 1000 - 1;
+            //text = "<html>Liczba żyć: <br/><html>" + Game.player.numberOfLives + "<html><br/><br/><br/><br/><br/>Numer poziomu: <br/><html>" + Game.level.getCurrentLevel() + "<html><br/><br/><br/><br/><br/>Czas gry: <br/><html>" + Game.timeOfGame + " [s]" + "<html><br/><br/><br/><br/><br/>Liczba punktów: <br/><html>" + Game.player.points;
+            text = "<html>Liczba żyć: <br/><html>" + Game.player.numberOfLives + "<html><br/><br/><br/><br/>Numer poziomu: <br/><html>" + Game.level.getCurrentLevel() + "<html><br/><br/><br/><br/>Czas gry: <br/><html>" + Game.timeOfGame + " [s]" + "<html><br/><br/><br/><br/>Liczba punktów: <br/><html>" + Game.player.points + "<html><br/><br/><br/><br/>Poz. trudności: <br/><html>" + 0;
             panel_02text.setText(text);
 
             if(frameSizeChanged(windowWidth)){
-                scale();
+                scale(mainFrame.getSize().width, mainFrame.getSize().height);
             }
 
             if(Game.player.numberOfLives == 0){
@@ -164,12 +164,17 @@ public class MainWindow extends JFrame {
     /**
      * Metoda skalująca rozmiar obiektów i ich położenie
      */
-    public void scale(){
+    public void scale(double previousWidth, double previousHeight){
         for (int i = 0; i < tableOfPumpkins.length; i++) {
             if(buttonsTable[i] != null){
 
-//                tableOfPumpkins[i].setX_coordinate(); Game.mainWindow.mainFrame.getSize().width - 150);
-//                tableOfPumpkins[i].setY_coordinate(); Game.mainWindow.mainFrame.getSize().width - 150);
+                //skalowanie współrzędnych
+                int newX = (int) (tableOfPumpkins[i].getX_coordinate() + (mainFrame.getSize().width - previousWidth));
+
+                tableOfPumpkins[i].setX_coordinate(newX);
+
+                int newY = (int) (tableOfPumpkins[i].getY_coordinate() + (mainFrame.getSize().height - previousHeight)) ;
+                tableOfPumpkins[i].setY_coordinate(newY);
 
                 //skalowanie rozmiaru obiektów
                 Image resizedImage = PumpkinObject.resize(tableOfPumpkins[i].image, tableOfPumpkins[i].getSizeOfObject());

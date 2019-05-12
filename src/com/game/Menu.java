@@ -16,15 +16,17 @@ public class Menu extends Canvas{
     public Rectangle contactButton = new Rectangle(WIDTH / 3 , 400, 300, 50);
     public Rectangle quitButton = new Rectangle(WIDTH / 3 , 500, 300, 50);
 
+    /**
+     * Metoda rysująca menu
+     */
     public void render(Graphics g){
 
         Graphics2D g2D = (Graphics2D) g;
-        //g2D.setColor(new Color(0x00A693));
 
         Font font0 = new Font("helvetica", Font.BOLD,50);
         g.setFont(font0);
         g.setColor(Color.RED);
-        g.drawString( "Gra ", WIDTH / 6 + 50, 150);
+        g.drawString( "MENU GRY ", WIDTH / 6 + 145, 150);
 
         Font font1 = new Font("arial", Font.BOLD, 30);
         g.setFont(font1);
