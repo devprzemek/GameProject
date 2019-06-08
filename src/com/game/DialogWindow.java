@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 /**
  * Klasa dodająca nowego gracza
  */
-
 public class DialogWindow extends JFrame implements ActionListener {
 
     private JFrame frame;
@@ -19,14 +18,17 @@ public class DialogWindow extends JFrame implements ActionListener {
     public DialogWindow(){
 
         frame = new JFrame();
-        frame.setTitle("");
+        frame.getContentPane().setBackground(Color.GRAY);
+
+        frame.setTitle("NOWY GRACZ");
         frame.setSize(300,300);
         frame.setLayout(null);
-        frame.setLocation(635,250);
+        frame.setLocation(618,250);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
         addPlayerButton = new JButton("Dodaj gracza");
+        addPlayerButton.setFont(new Font("Arial", Font.BOLD, 18));
         addPlayerButton.setSize(150, 40);
         addPlayerButton.setLocation(70, 100);
         addPlayerButton.setBackground(Color.RED);

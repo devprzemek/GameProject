@@ -7,7 +7,6 @@ import java.util.Random;
 /**
  * Klasa ładująca plik graficzny do zestrzelenia
  */
-
 public class PumpkinObject {
 
     public BufferedImage image;
@@ -16,6 +15,9 @@ public class PumpkinObject {
     private int x_coordinate;
     private int y_coordinate;
 
+    /**
+     * Konstruktor klasy PumpkinObject
+     */
     public PumpkinObject(BufferedImage image){
 
         this.image = image;
@@ -23,17 +25,20 @@ public class PumpkinObject {
         this.sizeOfObject = Double.parseDouble(GameReader.props.getProperty("początkowaSzerokośćObiektuGryJakoProcentPoczątkowejSzerokościPlanszy"));
         Random generator = new Random();
 
-        this.x_coordinate = generator.nextInt(Game.mainWindow.mainFrame.getSize().width - 150); //parametr
+        //współrzędne obiektu generowane losowo
+        this.x_coordinate = generator.nextInt(Game.mainWindow.mainFrame.getSize().width - 150);
         this.y_coordinate = generator.nextInt(Game.mainWindow.mainFrame.getSize().height - 100);
     }
 
-    public static Image resize(BufferedImage img, double sizeOfObject) {
+    /**
+     * Metoda zmieniająca rozmiar obiektu graficznego
+     * @return przeskalowany obiekt graficzny
+     */
+    public static Image resizeImage(BufferedImage img, double sizeOfObject) {
         int width = (int) (sizeOfObject * (Game.WIDTH + (Game.mainWindow.mainFrame.getSize().width - Game.WIDTH)) * 0.01);
         int height = (int) (sizeOfObject * (Game.HEIGHT + (Game.mainWindow.mainFrame.getSize().height - Game.HEIGHT)) * 0.01);
 
-        Image newImage = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-
-        return newImage;
+        return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
 
     public double getSizeOfObject(){
@@ -51,6 +56,7 @@ public class PumpkinObject {
     public int getX_coordinate(){
         return x_coordinate;
     }
+
     public int getY_coordinate(){
         return y_coordinate;
     }

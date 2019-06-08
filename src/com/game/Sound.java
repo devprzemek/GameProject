@@ -14,11 +14,11 @@ public class Sound {
 
     /**
      * Metoda odtwarzająca dany plik dźwiękowy
-     * @param soundName nazwa pliku
+     * @param fileName nazwa pliku dżwiękowego
      */
-    public static void playSound(String soundName){
+    public static void playSound(String fileName){
         try {
-            AudioInputStream audio = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            AudioInputStream audio = AudioSystem.getAudioInputStream(new File(fileName).getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
             clip.open(audio);
             clip.start();

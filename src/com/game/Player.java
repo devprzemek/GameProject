@@ -1,9 +1,8 @@
 package com.game;
 
 /**
- * Klasa przechowująca informacje o graczu
+ * Klasa przechowująca dane gracza
  */
-
 public class Player {
     public String name;
     public int points = 0;
@@ -24,9 +23,9 @@ public class Player {
     public void setNumberOfLives(String gameCode){
 
         if(gameCode.equals("1111"))
-            this.numberOfLives = 5;
+            this.numberOfLives = 10;
         else
-            this.numberOfLives = 3;
+            this.numberOfLives = 5;
     }
 
     /**

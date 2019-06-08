@@ -8,11 +8,14 @@ import java.io.IOException;
  * Klasa zawierająca główny mechanizm ładowania plików graficznych
  * do programu
  */
-
 public class ImageLoader {
 
     private BufferedImage image;
 
+    /**
+     * Metoda ładująca wybrany plik graficzny do programu
+     * @parm path ścieżka wskazująca lokalizację pliku
+     */
     public BufferedImage loadImage(String path) {
         try{
            image = ImageIO.read(getClass().getResourceAsStream(path));

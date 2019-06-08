@@ -6,7 +6,6 @@ import java.util.Properties;
 /**
  * Klasa ładująca plik parametryczny gry
  */
-
 public class GameReader {
 
     public static Properties props;

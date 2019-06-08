@@ -4,13 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-
 import static java.lang.Thread.sleep;
 
 /**
  * Klasa obsługująca główne okno gry z animacją rozszerzająca klasę JFrame
  */
-
 public class MainWindow extends JFrame {
 
     public PumpkinObject[] tableOfPumpkins = new PumpkinObject[Game.numberOfObjects];
@@ -20,6 +18,8 @@ public class MainWindow extends JFrame {
     public JFrame mainFrame;
     public JPanel panel_01 = new JPanel();
     public JPanel panel_02 = new JPanel();
+
+    private JButton pauseButton = new JButton("PAUZA");
 
     private String text = "<html>Liczba żyć: <br/><br/><br/>Numer poziomu: <br/><br/><br/>Czas gry: <br/><br/><br/><br/><br/><br/>Liczba punktów: </html>";
     private JLabel panel_02text = new JLabel(text);
@@ -33,11 +33,22 @@ public class MainWindow extends JFrame {
      * Konstruktor klasy MainWindow
      */
     public MainWindow() {
+        pauseButton.setBackground(Color.RED);
+        pauseButton.addActionListener(event -> {
+            long startTime = System.currentTimeMillis();
+            Game.mainWindow.pause(false);
+            JOptionPane.showMessageDialog(Game.mainWindow.mainFrame, "Gra została zatrzymana.", "Stan gry", JOptionPane.INFORMATION_MESSAGE);
+            long endTime = System.currentTimeMillis();
+            Game.level.pauseTime += endTime - startTime;
+            Game.mainWindow.pause(true);
+        });
+
         panel_02text.setForeground(Color.RED);
         panel_01.setLayout(null);
 
         panel_01.setBackground(new Color(Game.backgroundColorTable[0] + Game.backgroundColorTable[1], 216, 131));
         panel_02.setBackground(Color.DARK_GRAY);
+
         panel_02.add(panel_02text);
 
         mainFrame = new JFrame(Game.TITLE);
@@ -80,6 +91,9 @@ public class MainWindow extends JFrame {
      * Metoda tworząca obiekty do zestrzelenia
      */
     public void createPumpkinObjects() {
+        tableOfPumpkins = new PumpkinObject[Game.numberOfObjects];
+        buttonsTable = new JButton[Game.numberOfObjects];
+
         for (int i = 0; i < tableOfPumpkins.length; i++) {
             tableOfPumpkins[i] = new PumpkinObject(imageLoader.loadImage("/pumpkin.png"));
             buttonsTable[i] = new JButton();
@@ -87,20 +101,29 @@ public class MainWindow extends JFrame {
             int finalI = i;
             buttonsTable[i].addActionListener(event -> {
                 Sound.playSound("res/sound/strzelanie2.wav");
+                if(buttonsTable[finalI] != null)
                 panel_01.remove(buttonsTable[finalI]);
                 buttonsTable[finalI] = null;
                 panel_01.revalidate();
                 panel_01.repaint();
                 Game.player.points += 100;
+
+                Game.level.increaseDifficultyLevel(Game.player.points);
                 Game.level.increaseLevel(Game.player.points);
-                if(Game.player.points == 1000 || Game.player.points == 2000)
-                Game.level.createLevel(Game.player.points);
+
+                if(Game.player.points == 2200 || Game.player.points == 4400){
+                    Game.level.createLevel(Game.player.points);
+                }
+
             });
 
-            Image resizedImage = PumpkinObject.resize(tableOfPumpkins[i].image, tableOfPumpkins[i].getSizeOfObject());
+            Image resizedImage = PumpkinObject.resizeImage(tableOfPumpkins[i].image, tableOfPumpkins[i].getSizeOfObject());
 
             buttonsTable[i].setIcon(new ImageIcon(resizedImage));
             buttonsTable[i].setBounds(tableOfPumpkins[i].getX_coordinate(), (int) tableOfPumpkins[i].getY_coordinate(), (int) (tableOfPumpkins[i].getSizeOfObject() * (Game.WIDTH + (mainFrame.getSize().width - Game.WIDTH)) * 0.01), (int) (tableOfPumpkins[i].getSizeOfObject() * (Game.WIDTH + (mainFrame.getSize().height - Game.HEIGHT)) * 0.01));
+
+            pauseButton.setBounds(0,0,80,20);
+            panel_01.add(pauseButton);
             panel_01.add(buttonsTable[i]);
             panel_01.repaint();
         }
@@ -114,9 +137,8 @@ public class MainWindow extends JFrame {
             double windowWidth = mainFrame.getSize().width;
 
             currentTime = System.currentTimeMillis();
-            Game.timeOfGame = ((currentTime - startTime) - Game.level.pauseTime) / 1000 - 1;
-            //text = "<html>Liczba żyć: <br/><html>" + Game.player.numberOfLives + "<html><br/><br/><br/><br/><br/>Numer poziomu: <br/><html>" + Game.level.getCurrentLevel() + "<html><br/><br/><br/><br/><br/>Czas gry: <br/><html>" + Game.timeOfGame + " [s]" + "<html><br/><br/><br/><br/><br/>Liczba punktów: <br/><html>" + Game.player.points;
-            text = "<html>Liczba żyć: <br/><html>" + Game.player.numberOfLives + "<html><br/><br/><br/><br/>Numer poziomu: <br/><html>" + Game.level.getCurrentLevel() + "<html><br/><br/><br/><br/>Czas gry: <br/><html>" + Game.timeOfGame + " [s]" + "<html><br/><br/><br/><br/>Liczba punktów: <br/><html>" + Game.player.points + "<html><br/><br/><br/><br/>Poz. trudności: <br/><html>" + 0;
+            Game.timeOfGame = ((currentTime - startTime) - Game.level.pauseTime) / 1000;
+            text = "<html>Liczba żyć: <br/><html>" + Game.player.numberOfLives + "<html><br/><br/><br/><br/>Numer poziomu: <br/><html>" + Game.level.getCurrentLevel() + "<html><br/><br/><br/><br/>Czas gry: <br/><html>" + Game.timeOfGame + " [s]" + "<html><br/><br/><br/><br/>Liczba punktów: <br/><html>" + Game.player.points + "<html><br/><br/><br/><br/>Poz. trudności: <br/><html>" + Game.level.currentDifficultyLevel;
             panel_02text.setText(text);
 
             if(frameSizeChanged(windowWidth)){
@@ -135,11 +157,13 @@ public class MainWindow extends JFrame {
 
             if(Game.timeOfGame  % Game.level.timeForShooting == 0 && Game.timeOfGame > 0 && Game.player.numberOfLives > 0){
                 try {
-                    sleep(500);
+                    sleep(600);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
                 removeLeftObjects();
+                if(running)
                 createPumpkinObjects();
             }
         }
@@ -177,7 +201,7 @@ public class MainWindow extends JFrame {
                 tableOfPumpkins[i].setY_coordinate(newY);
 
                 //skalowanie rozmiaru obiektów
-                Image resizedImage = PumpkinObject.resize(tableOfPumpkins[i].image, tableOfPumpkins[i].getSizeOfObject());
+                Image resizedImage = PumpkinObject.resizeImage(tableOfPumpkins[i].image, tableOfPumpkins[i].getSizeOfObject());
                 buttonsTable[i].setIcon(new ImageIcon(resizedImage));
                 buttonsTable[i].setBounds(tableOfPumpkins[i].getX_coordinate(), tableOfPumpkins[i].getY_coordinate(), (int) (tableOfPumpkins[i].getSizeOfObject() * (Game.WIDTH + (mainFrame.getSize().width - Game.WIDTH)) * 0.01), (int) (tableOfPumpkins[i].getSizeOfObject() * (Game.WIDTH + (mainFrame.getSize().height - Game.HEIGHT)) * 0.01));
             }

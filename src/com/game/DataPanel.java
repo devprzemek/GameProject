@@ -14,17 +14,19 @@ public class DataPanel extends JDialog implements ActionListener {
     private JTextField tPlayerName;
     private JPasswordField pGameCode;
     private JButton bOK, bCancel;
-    private boolean okData;
 
+    /**
+     * Konstruktor klasy DataPanel
+     */
     public DataPanel(JFrame owner){
         super(owner, "Wprowadzanie danych", true);
         setSize(300,300);
         setLayout(null);
-        setLocation(635,250);
+        setLocation(620,250);
 
-        String text = "<html> W miejsce pola Kod Gry wpisz kod do konta premium lub jeśli nie posiadasz wpisz 0!<html>";
+        String text = "<html> W miejsce pola Kod Gry wpisz, jeśli posiadasz, kod do konta premium! <html>";
         lText = new JLabel(text, JLabel.CENTER);
-        lText.setBounds(50,20, 200,50);
+        lText.setBounds(50,20, 250,50);
         add(lText);
 
         lPlayer = new JLabel("Nazwa Gracza", JLabel.RIGHT);
@@ -54,14 +56,21 @@ public class DataPanel extends JDialog implements ActionListener {
         add(bCancel);
     }
 
+    /**
+     * Metoda zwracająca wpisaną nazwę gracza
+     * @return nazwa gracza
+     */
     public String getPlayerName(){
         return tPlayerName.getText();
     }
 
+    /**
+     * Metoda zwracająca wpisany god gry
+     * @return kod gry
+     */
     public String getGameCode(){
         return new String(pGameCode.getPassword());
     }
-
 
     public void setFocus(){
         tPlayerName.requestFocusInWindow();
@@ -69,13 +78,6 @@ public class DataPanel extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Object source = e.getSource();
-
-        if(source == bOK)
-            okData = true;
-        else
-            okData = false;
-
         setVisible(false);
     }
 }

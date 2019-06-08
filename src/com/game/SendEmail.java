@@ -11,6 +11,9 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * Klasa odpowiedzialna za wysyłanie wiadomości email
+ */
 public class SendEmail extends JDialog implements ActionListener {
 
     private static final String HOST = "smtp.gmail.com";
@@ -26,7 +29,7 @@ public class SendEmail extends JDialog implements ActionListener {
     private static final String TO = "salamonikp@gmail.com";
 
     // Temat wiadomości
-    private static final String SUBJECT = "[GRA]";
+    private static final String SUBJECT = "[GRA - Kontakt]";
 
     // Treść wiadomości
     private static String CONTENT = "";
@@ -97,6 +100,8 @@ public class SendEmail extends JDialog implements ActionListener {
 
         tMessage = new JTextArea();
         tMessage.setBounds(160,180, 150,100);
+        tMessage.setLineWrap(true);
+        tMessage.setWrapStyleWord(true);
         add(tMessage);
 
         bSend = new JButton("Wyślij");

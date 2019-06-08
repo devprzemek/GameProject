@@ -3,7 +3,8 @@ package com.game;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.TreeMap;
 
 import static java.lang.Integer.parseInt;
 
@@ -18,14 +19,13 @@ public class Game extends Canvas implements Runnable {
     public static String TITLE;
     public static String backGroundColor;
 
-
-    public static int numberOfObjects;
     public static long timeOfGame;
     public static int numberOfLevels;
     public static int numberOfDifficultyLevels;
     public static int difficultyRate;
+    public static int numberOfObjects;
 
-    public static ArrayList<String> bestResults = new ArrayList<>(5);
+    public static TreeMap<Integer, String> bestResults = new TreeMap<>(Collections.reverseOrder());
 
     private boolean running = false;
     public static Thread thread;
@@ -92,6 +92,7 @@ public class Game extends Canvas implements Runnable {
         init();
         while(running){
             render();
+
         }
         stop();
     }
@@ -119,6 +120,7 @@ public class Game extends Canvas implements Runnable {
 
     public static void main(String[] args){
 
+        EventQueue.invokeLater(() -> {
         Game game = new Game();
 
         game.setPreferredSize(new Dimension(Menu.WIDTH , Menu.HEIGHT ));
@@ -126,6 +128,7 @@ public class Game extends Canvas implements Runnable {
         game.setMinimumSize(new Dimension(Menu.WIDTH , Menu.HEIGHT ));
 
         JFrame frame0 = new JFrame("MENU");
+        frame0.getContentPane().setBackground(Color.DARK_GRAY);
         frame0.add(game);
         frame0.pack();
         frame0.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -134,5 +137,6 @@ public class Game extends Canvas implements Runnable {
         frame0.setVisible(true);
 
         game.start();
+        });
     }
 }
